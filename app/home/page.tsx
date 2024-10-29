@@ -5,7 +5,14 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ImageIcon, VideoIcon } from "@radix-ui/react-icons";
 
 type Post = {
   id: number;
@@ -25,7 +32,11 @@ const PostCard = ({ post }: { post: Post }) => (
       {post.mediaType && post.mediaUrl && (
         <div className="mt-2">
           {post.mediaType === "image" && (
-            <img src={post.mediaUrl} alt="Post media" className="max-w-full h-auto" />
+            <img
+              src={post.mediaUrl}
+              alt="Post media"
+              className="max-w-full h-auto"
+            />
           )}
           {post.mediaType === "video" && (
             <video src={post.mediaUrl} controls className="max-w-full h-auto" />
@@ -79,13 +90,10 @@ const PostForm = ({ username }: { username: string }) => {
             />
             <div className="flex space-x-2">
               <Button type="button" variant="outline" size="icon">
-                Im {/* Placeholder for ImageIcon */}
+                <ImageIcon />
               </Button>
               <Button type="button" variant="outline" size="icon">
-                VI {/* Placeholder for VideoIcon */}
-              </Button>
-              <Button type="button" variant="outline" size="icon">
-                Au {/* Placeholder for AudioIcon */}
+                <VideoIcon />
               </Button>
             </div>
             <Button type="submit">Post</Button>
