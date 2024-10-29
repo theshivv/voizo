@@ -1,22 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Post = {
-  id: number
-  username: string
-  content: string
-  mediaType?: "image" | "video" | "audio"
-  mediaUrl?: string
-}
+  id: number;
+  username: string;
+  content: string;
+  mediaType?: "image" | "video" | "audio";
+  mediaUrl?: string;
+};
 
 const PostCard = ({ post }: { post: Post }) => (
   <Card className="mb-4">
@@ -27,42 +24,46 @@ const PostCard = ({ post }: { post: Post }) => (
       <p>{post.content}</p>
       {post.mediaType && post.mediaUrl && (
         <div className="mt-2">
-          {post.mediaType === "image" && <img src={post.mediaUrl} alt="Post media" className="max-w-full h-auto" />}
-          {post.mediaType === "video" && <video src={post.mediaUrl} controls className="max-w-full h-auto" />}
-          {post.mediaType === "audio" && <audio src={post.mediaUrl} controls className="w-full" />}
+          {post.mediaType === "image" && (
+            <img src={post.mediaUrl} alt="Post media" className="max-w-full h-auto" />
+          )}
+          {post.mediaType === "video" && (
+            <video src={post.mediaUrl} controls className="max-w-full h-auto" />
+          )}
+          {post.mediaType === "audio" && (
+            <audio src={post.mediaUrl} controls className="w-full" />
+          )}
         </div>
       )}
     </CardContent>
   </Card>
-)
+);
 
 export default function HomePage() {
-  const searchParams = useSearchParams()
-  const username = searchParams.get("username") || "Anonymous"
-  const [posts, setPosts] = useState<Post[]>([])
-  const [newPost, setNewPost] = useState("")
-  const [filter, setFilter] = useState("latest")
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username") || "Anonymous";
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [newPost, setNewPost] = useState("");
+  const [filter, setFilter] = useState("latest");
 
   const handlePostSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (newPost.trim()) {
-      setPosts([{ id: Date.now(), username, content: newPost }, ...posts])
-      setNewPost("")
+      setPosts([{ id: Date.now(), username, content: newPost }, ...posts]);
+      setNewPost("");
     }
-  }
+  };
 
   const filteredPosts = () => {
     switch (filter) {
       case "trending":
-        // In a real app, you'd implement trending logic here
-        return posts
+        return posts; // Replace with trending logic if available
       case "latest":
-        return [...posts].sort((a, b) => b.id - a.id)
-      // Add more filter cases as needed
+        return [...posts].sort((a, b) => b.id - a.id);
       default:
-        return posts
+        return posts;
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -80,16 +81,13 @@ export default function HomePage() {
             />
             <div className="flex space-x-2">
               <Button type="button" variant="outline" size="icon">
-                {/* <ImageIcon className="h-4 w-4" /> */}
-                Im
+                Im {/* Placeholder for ImageIcon */}
               </Button>
               <Button type="button" variant="outline" size="icon">
-                {/* <VideoIcon className="h-4 w-4" /> */}
-                VI
+                VI {/* Placeholder for VideoIcon */}
               </Button>
               <Button type="button" variant="outline" size="icon">
-                {/* <AudioIcon className="h-4 w-4" /> */}
-                Au
+                Au {/* Placeholder for AudioIcon */}
               </Button>
             </div>
             <Button type="submit">Post</Button>
@@ -105,7 +103,6 @@ export default function HomePage() {
           <SelectContent>
             <SelectItem value="trending">Trending Topics</SelectItem>
             <SelectItem value="latest">Latest Posts</SelectItem>
-            {/* Add more filter options here */}
           </SelectContent>
         </Select>
       </div>
@@ -116,5 +113,5 @@ export default function HomePage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
