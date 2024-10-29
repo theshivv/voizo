@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,9 +39,7 @@ const PostCard = ({ post }: { post: Post }) => (
   </Card>
 );
 
-export default function HomePage() {
-  const searchParams = useSearchParams();
-  const username = searchParams.get("username") || "Anonymous";
+const PostForm = ({ username }: { username: string }) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [newPost, setNewPost] = useState("");
   const [filter, setFilter] = useState("latest");
@@ -66,7 +64,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Create a Post</CardTitle>
@@ -112,6 +110,22 @@ export default function HomePage() {
           <PostCard key={post.id} post={post} />
         ))}
       </div>
+    </>
+  );
+};
+
+export default function HomePage() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Suspense fallback={<div>Loading...</div>}>
+        <ClientPage />
+      </Suspense>
     </div>
   );
+}
+
+function ClientPage() {
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username") || "Anonymous";
+  return <PostForm username={username} />;
 }
