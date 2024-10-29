@@ -1,39 +1,40 @@
-"use client"
+"use client";
 
-import { useSearchParams } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Post = {
-  id: number
-  content: string
-  createdAt: string
-}
+  id: number;
+  content: string;
+  createdAt: string;
+};
 
 type Activity = {
-  id: number
-  action: string
-  createdAt: string
-}
+  id: number;
+  action: string;
+  createdAt: string;
+};
 
 const mockPosts: Post[] = [
   { id: 1, content: "This is my first post on Voizo!", createdAt: "2023-05-01T12:00:00Z" },
   { id: 2, content: "Enjoying the anonymity here.", createdAt: "2023-05-02T14:30:00Z" },
   { id: 3, content: "Great discussions happening!", createdAt: "2023-05-03T09:15:00Z" },
-]
+];
 
 const mockActivities: Activity[] = [
   { id: 1, action: "Created a new post", createdAt: "2023-05-01T12:00:00Z" },
   { id: 2, action: "Liked a post", createdAt: "2023-05-02T15:45:00Z" },
   { id: 3, action: "Commented on a post", createdAt: "2023-05-03T10:30:00Z" },
-]
+];
 
-export default function ProfilePage() {
-  const searchParams = useSearchParams()
-  const username = searchParams.get("username") || "Anonymous"
+const ClientProfile = () => {
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username") || "Anonymous";
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>{username}</CardTitle>
@@ -82,6 +83,16 @@ export default function ProfilePage() {
           ))}
         </TabsContent>
       </Tabs>
+    </>
+  );
+};
+
+export default function ProfilePage() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Suspense fallback={<div>Loading...</div>}>
+        <ClientProfile />
+      </Suspense>
     </div>
-  )
+  );
 }
