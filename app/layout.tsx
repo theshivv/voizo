@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import AppBar from "./components/AppBar";
+import { Inter } from 'next/font/google'
+
+
+const inter = Inter({ subsets: ['latin'] })
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,11 +48,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className="dark">
+      <body className={inter.className}>
+        <AppBar />
+        <main className="container mx-auto px-4 py-8 mb-16 md:mb-0 md:mt-16">
+          {children}
+        </main>
       </body>
     </html>
   );
